@@ -153,20 +153,22 @@ exports.cancelInvoiceHandler = async (req, res) => {
 
     await Promise.all(
         invoice.products.map(async (item) => {
-            const update = {
-                $inc : { 
-                    qty : parseInt(item?.qty)
-                } 
-            }
-
-            const updated = await updateStock(
-                { _id: item?.product },
-                update,
-                { 
-                    safe: true, 
-                    new: true 
+            if(item.category === 'product') {
+                const update = {
+                    $inc : { 
+                        qty : parseInt(item?.qty)
+                    } 
                 }
-            )
+    
+                await updateStock(
+                    { _id: item?.product },
+                    update,
+                    { 
+                        safe: true, 
+                        new: true 
+                    }
+                )
+            }
         })
     );
 
