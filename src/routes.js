@@ -37,6 +37,8 @@ const { createTravelSchema, updateTravelSchema, deleteTravelSchema } = require('
 const { createTravelHandler, updateTravelHandler, getTravelHandler, deleteTravelHandler } = require('./controllers/travel.controller');
 const { getResultReportHandler, getDashboardReportHandler } = require('./controllers/result.controller');
 const { getResultSchema } = require('./schemas/result.schema');
+const { createCommandeSchema, updateCommandeSchema, cancelCommandeSchema } = require('./schemas/commande.schema');
+const { createCommandeHandler, updateCommandeHandler, getCommandeHandler, cancelCommandeHandler } = require('./controllers/commande.controller');
 
 
 function routes(app) {
@@ -115,6 +117,14 @@ function routes(app) {
     app.get('/api/invoices/:invoice_id', requireUser, getInvoiceHandler)
     app.put('/api/invoices/:invoice_id', [requireUser, validate(cancelInvoiceSchema)], cancelInvoiceHandler)
    
+
+    // ====================================
+    // COMMANDE'S ROUTES
+    // ====================================
+    app.post('/api/commandes', [requireUser, validate(createCommandeSchema)], createCommandeHandler)
+    app.patch('/api/commandes/:commande_id', [requireUser, validate(updateCommandeSchema)], updateCommandeHandler)
+    app.get('/api/commandes/:commande_id', requireUser, getCommandeHandler)
+    app.put('/api/commandes/:commande_id', [requireUser, validate(cancelCommandeSchema)], cancelCommandeHandler)
 
     // ====================================
     // PURCHASE'S ROUTES
