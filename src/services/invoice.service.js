@@ -12,15 +12,15 @@ exports.createInvoice = async (input) => {
 
 exports.findInvoice = async (query, options = { lean: true }) => {
     if(isEmpty(query)) {
-        const invoices = await InvoiceModel.find(query).populate('client', 'names').populate('products').populate('author', 'first_name last_name')
+        const invoices = await InvoiceModel.find(query).populate('client', 'names phone email').populate('products').populate('author', 'first_name last_name')
         return invoices.map(invoice => omit(invoice.toJSON(), "updatedAt"))
     }
 
-    return await InvoiceModel.findById(query, {}, options).populate('client', 'names').populate('products').populate('author', 'first_name last_name')
+    return await InvoiceModel.findById(query, {}, options).populate('client', 'names phone email').populate('products').populate('author', 'first_name last_name')
 }
 
 exports.updateInvoice = async (query, update, options = { lean: true }) => {
-    return await InvoiceModel.findByIdAndUpdate(query, update, options).populate('client', 'names').populate('author', 'first_name last_name')
+    return await InvoiceModel.findByIdAndUpdate(query, update, options).populate('client', 'names phone email').populate('author', 'first_name last_name')
 }
 
 exports.deleteInvoice = async (query) => {
