@@ -1,11 +1,6 @@
 const mongoose =  require('mongoose')
 
 const commandeSchema = new mongoose.Schema({
-    order_date: {
-        type: mongoose.Schema.Types.Date,
-        required: true,
-        trim: true,
-    },
     commande_no: {
         type: mongoose.Schema.Types.Number,
         required: true,

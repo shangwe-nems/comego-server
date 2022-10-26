@@ -14,9 +14,11 @@ exports.createCommandeHandler = async (req, res) => {
     
     if(!permission.CREATE_INVOICE) return res.sendStatus(403)
 
-    const newCommande  = await createCommande({ ...omit(body, "products"), author, commande_no: await generateCommandeNo() + 1 })
+    const newCommande  = await createCommande({ ...body, author, commande_no: await generateCommandeNo() + 1 })
 
-    return res.send(newCommande)
+    const commande = await findCommande({ _id: newCommande._id})
+
+    return res.send(commande)
 }
 
 
@@ -54,14 +56,14 @@ exports.getCommandeHandler = async (req, res) => {
 
     if(!commande) return res.sendStatus(404)
 
-    const commandeList = commande?.map(commande => {
-        return {
-            ...commande,
-            buyer: commande.buyer_category === 'casual' ? commande.buyer_name : commande.client.names
-        }
-    })
+    // const commandeList = commande?.map(commande => {
+    //     return {
+    //         ...commande,
+    //         buyer: commande.buyer_category === 'casual' ? commande.buyer_name : commande.client.names
+    //     }
+    // })
 
-    return res.send(commandeList)
+    return res.send(commande)
 }
 
 

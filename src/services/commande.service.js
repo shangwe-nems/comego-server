@@ -12,15 +12,15 @@ exports.createCommande = async (input) => {
 
 exports.findCommande = async (query, options = { lean: true }) => {
     if(isEmpty(query)) {
-        const commandes = await CommandeModel.find(query).populate('provider', 'shop_name').populate('author', 'first_name last_name')
+        const commandes = await CommandeModel.find(query).populate('provider', 'shop_name address contact').populate('author', 'first_name last_name')
         return commandes.map(commande => omit(commande.toJSON(), "updatedAt"))
     }
 
-    return await CommandeModel.findById(query, {}, options).populate('provider', 'shop_name').populate('author', 'first_name last_name')
+    return await CommandeModel.findById(query, {}, options).populate('provider', 'shop_name address contact').populate('author', 'first_name last_name')
 }
 
 exports.updateCommande = async (query, update, options = { lean: true }) => {
-    return await CommandeModel.findByIdAndUpdate(query, update, options).populate('provider', 'shop_name').populate('author', 'first_name last_name')
+    return await CommandeModel.findByIdAndUpdate(query, update, options).populate('provider', 'shop_name address contact').populate('author', 'first_name last_name')
 }
 
 exports.deleteCommande = async (query) => {
